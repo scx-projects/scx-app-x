@@ -1,0 +1,80 @@
+# SCX EditorConfig v1.0
+root = true
+
+[*]
+# 字符集
+charset = utf-8
+# 行分割符
+end_of_line = lf
+# 缩进样式
+indent_style = space
+# 缩进
+indent_size = 4
+# 制表符大小
+tab_width = 4
+# 去除行尾空白字符
+trim_trailing_whitespace = true
+# 在文件末尾插入换行符
+insert_final_newline = true
+# 强制换行位置
+max_line_length = 120
+
+[*.java]
+# 简单的 块 在同一行
+ij_java_keep_simple_blocks_in_one_line = false
+# 简单的 方法 在同一行
+ij_java_keep_simple_methods_in_one_line = false
+# 简单的 lambda 在同一行
+ij_java_keep_simple_lambdas_in_one_line = true
+# 简单的 类 在同一行
+ij_java_keep_simple_classes_in_one_line = true
+# 'if()' 语句 强制加大括号
+ij_java_if_brace_force = always
+# 'for()' 语句 强制加大括号
+ij_java_for_brace_force = always
+# 'while()' 语句 强制加大括号
+ij_java_while_brace_force = always
+# 'do...while()' 语句 强制加大括号
+ij_java_do_while_brace_force = always
+
+[*.js]
+# 使用使用 双引号
+ij_javascript_use_double_quotes = true
+# 强制 引号样式
+ij_javascript_force_quote_style = true
+# 在语句末尾使用 分号
+ij_javascript_use_semicolon_after_statement = true
+# 强制 分号样式
+ij_javascript_force_semicolon_style = true
+# 'if()' 语句 强制加大括号
+ij_javascript_if_brace_force = always
+# 'for()' 语句 强制加大括号
+ij_javascript_for_brace_force = always
+# 'while()' 语句 强制加大括号
+ij_javascript_while_brace_force = always
+# 'do...while()' 语句 强制加大括号
+ij_javascript_do_while_brace_force = always
+
+[*.html]
+# 引号样式
+ij_html_quote_style = double
+# 强制引号
+ij_html_enforce_quotes = true
+
+[*.css]
+# 使用 双引号
+ij_css_use_double_quotes = true
+# 强制引号格式
+ij_css_enforce_quotes_on_format = true
+
+[*.json]
+# 缩进
+indent_size = 2
+
+[*.md]
+# 去除行尾空白字符 (MarkDown 行尾空白有特殊含义)
+trim_trailing_whitespace = false
+
+[*.{yaml,yml}]
+# 缩进
+indent_size = 2
