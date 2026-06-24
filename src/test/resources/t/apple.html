@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Apple CRUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 24px;
+        }
+
+        input, button {
+            padding: 6px;
+            margin: 4px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .form-box {
+            margin-bottom: 16px;
+        }
+
+        .message {
+            margin-top: 8px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Apple CRUD</h2>
+
+<div class="form-box">
+    <input id="id" type="hidden">
+
+    <div>
+        <label>名称:</label>
+        <input id="name" placeholder="例如: 红富士">
+    </div>
+
+    <div>
+        <label>颜色:</label>
+        <input id="color" placeholder="例如: 红色">
+    </div>
+
+    <div>
+        <label>产地:</label>
+        <input id="origin" placeholder="例如: 山东">
+    </div>
+
+    <div>
+        <label>单价:</label>
+        <input id="price" placeholder="例如: 5.5" step="0.01" type="number">
+    </div>
+
+    <div>
+        <label>库存:</label>
+        <input id="stock" placeholder="例如: 100" step="1" type="number">
+    </div>
+
+    <button onclick="saveApple()">保存</button>
+    <button onclick="resetForm()">清空</button>
+</div>
+
+<div>
+    <input id="searchId" placeholder="输入 ID 查询" type="number">
+    <button onclick="getAppleById()">按 ID 查询</button>
+    <button onclick="loadApples()">查询全部</button>
+</div>
+
+<div class="message" id="message"></div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>颜色</th>
+        <th>产地</th>
+        <th>单价</th>
+        <th>库存</th>
+        <th>创建时间</th>
+        <th>更新时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="appleTableBody"></tbody>
+</table>
+
+<script>
+    const API = "/api/apple";
+
+    window.onload = function () {
+        loadApples();
+    };
+
+    async function request(url, options) {
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || ("请求失败: " + response.status));
+        }
+
+        const contentType = response.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+            return await response.json();
+        }
+
+        return await response.text();
+    }
+
+    function getFormData() {
+        const priceValue = document.getElementById("price").value;
+        const stockValue = document.getElementById("stock").value;
+
+        return {
+            name: document.getElementById("name").value.trim(),
+            color: document.getElementById("color").value.trim(),
+            origin: document.getElementById("origin").value.trim(),
+            price: priceValue === "" ? null : Number(priceValue),
+            stock: stockValue === "" ? null : Number(stockValue)
+        };
+    }
+
+    function setFormData(apple) {
+        document.getElementById("id").value = apple.id || "";
+        document.getElementById("name").value = apple.name || "";
+        document.getElementById("color").value = apple.color || "";
+        document.getElementById("origin").value = apple.origin || "";
+        document.getElementById("price").value = apple.price == null ? "" : apple.price;
+        document.getElementById("stock").value = apple.stock == null ? "" : apple.stock;
+    }
+
+    function resetForm() {
+        document.getElementById("id").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("color").value = "";
+        document.getElementById("origin").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("stock").value = "";
+        setMessage("");
+    }
+
+    async function loadApples() {
+        try {
+            const result = await request(API, {
+                method: "GET"
+            });
+
+            renderTable(result);
+            setMessage("查询成功");
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
+    async function getAppleById() {
+        const id = document.getElementById("searchId").value;
+
+        if (!id) {
+            setMessage("请输入 ID");
+            return;
+        }
+
+        try {
+            const apple = await request(API + "/" + id, {
+                method: "GET"
+            });
+
+            renderTable(apple ? [apple] : []);
+            setFormData(apple);
+            setMessage("查询成功");
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
+    async function saveApple() {
+        const id = document.getElementById("id").value;
+        const apple = getFormData();
+
+        try {
+            if (id) {
+                await request(API + "/" + id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(apple)
+                });
+
+                setMessage("更新成功");
+            } else {
+                await request(API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(apple)
+                });
+
+                setMessage("新增成功");
+            }
+
+            resetForm();
+            await loadApples();
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
+    async function editApple(id) {
+        try {
+            const apple = await request(API + "/" + id, {
+                method: "GET"
+            });
+
+            setFormData(apple);
+            setMessage("已载入 ID " + id);
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
+    async function deleteApple(id) {
+        if (!confirm("确定删除 ID 为 " + id + " 的 Apple 吗？")) {
+            return;
+        }
+
+        try {
+            await request(API + "/" + id, {
+                method: "DELETE"
+            });
+
+            setMessage("删除成功");
+            await loadApples();
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
+    function renderTable(apples) {
+        const tbody = document.getElementById("appleTableBody");
+        tbody.innerHTML = "";
+
+        for (const apple of apples) {
+            const tr = document.createElement("tr");
+
+            appendTd(tr, apple.id);
+            appendTd(tr, apple.name);
+            appendTd(tr, apple.color);
+            appendTd(tr, apple.origin);
+            appendTd(tr, apple.price);
+            appendTd(tr, apple.stock);
+            appendTd(tr, apple.createdDate);
+            appendTd(tr, apple.updatedDate);
+
+            const actionTd = document.createElement("td");
+
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "编辑";
+            editBtn.onclick = function () {
+                editApple(apple.id);
+            };
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "删除";
+            deleteBtn.onclick = function () {
+                deleteApple(apple.id);
+            };
+
+            actionTd.appendChild(editBtn);
+            actionTd.appendChild(deleteBtn);
+            tr.appendChild(actionTd);
+
+            tbody.appendChild(tr);
+        }
+    }
+
+    function appendTd(tr, value) {
+        const td = document.createElement("td");
+        td.textContent = value == null ? "" : value;
+        tr.appendChild(td);
+    }
+
+    function setMessage(text) {
+        document.getElementById("message").textContent = text;
+    }
+
+</script>
+
+</body>
+</html>
