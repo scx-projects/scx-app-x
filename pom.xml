@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>scx-app-x</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.2</version>
     <packaging>jar</packaging>
 
     <name>SCX App X</name>
@@ -137,7 +137,7 @@
         <scx-app.version>0.2.1</scx-app.version>
         <scx-web.version>0.8.1</scx-web.version>
         <scx-data-sql.version>0.5.0</scx-data-sql.version>
-        <scx-scheduling.version>0.2.0</scx-scheduling.version>
+        <scx-scheduling.version>0.2.1</scx-scheduling.version>
         <scx-jdbc-spy.version>0.4.0</scx-jdbc-spy.version>
         <scx-logging.version>0.0.1</scx-logging.version>
         <hikaricp.version>7.1.0</hikaricp.version>
