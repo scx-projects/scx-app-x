@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.scx</groupId>
+        <artifactId>scx-parent</artifactId>
+        <version>1</version>
+        <relativePath/>
+    </parent>
+
+    <artifactId>scx-app-x</artifactId>
+    <version>0.6.0</version>
+    <packaging>jar</packaging>
+
+    <name>SCX App X</name>
+    <description>
+        SCX App X
+    </description>
+    <url>https://github.com/scx-projects/scx-app-x</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/scx-projects/scx-app-x/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>scx567888</id>
+            <name>scx567888</name>
+            <email>scx567888@outlook.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/scx-projects/scx-app-x.git</connection>
+        <developerConnection>scm:git:https://github.com/scx-projects/scx-app-x.git</developerConnection>
+        <url>https://github.com/scx-projects/scx-app-x</url>
+    </scm>
+
+    <build>
+        <plugins>
+
+            <!-- 此插件用于将项目打包为 jar 包-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- 因为 scx 并不是可执行 jar 包, 所以此处不添加 classpath 到描述文件中 -->
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                    </archive>
+                    <!-- 此处因为没有类似 maven-source-plugin 插件中 excludeResources 的选项 -->
+                    <!-- 所以在这里手动排除资源文件, 具体文件说明见下方 -->
+                    <excludes>
+                        <!-- 默认 git 占位空文件 -->
+                        <exclude>/.gitkeep</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-app</artifactId>
+            <version>${scx-app.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-web</artifactId>
+            <version>${scx-web.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-data-sql</artifactId>
+            <version>${scx-data-sql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-scheduling</artifactId>
+            <version>${scx-scheduling.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-jdbc-spy</artifactId>
+            <version>${scx-jdbc-spy.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-logging</artifactId>
+            <version>${scx-logging.version}</version>
+        </dependency>
+
+        <!-- 数据库连接池 用于减少数据库连接创建时的性能消耗 -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikaricp.version}</version>
+        </dependency>
+
+        <!-- ****************** 以下为测试依赖 ****************** -->
+
+        <dependency>
+            <groupId>dev.scx</groupId>
+            <artifactId>scx-sql-mysql</artifactId>
+            <version>${scx-sql-mysql.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestNG 测试包 -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+
+        <!-- *********************** 以下为依赖包版本 *********************** -->
+        <scx-app.version>0.6.0</scx-app.version>
+        <scx-web.version>0.10.0</scx-web.version>
+        <scx-data-sql.version>0.10.0</scx-data-sql.version>
+        <scx-scheduling.version>0.10.0</scx-scheduling.version>
+        <scx-jdbc-spy.version>0.10.0</scx-jdbc-spy.version>
+        <scx-logging.version>0.10.0</scx-logging.version>
+        <hikaricp.version>7.1.0</hikaricp.version>
+        <scx-sql-mysql.version>0.10.0</scx-sql-mysql.version>
+        <testng.version>7.12.0</testng.version>
+
+    </properties>
+
+</project>
