@@ -1,0 +1,31 @@
+name: CI
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v7
+
+      - name: 启动 MySQL
+        run: sudo systemctl start mysql.service
+
+      - name: 配置 Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: 25
+          distribution: temurin
+          cache: maven
+
+      - name: Maven 构建
+        run: mvn package
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v7
+        with:
+          name: scx-app-x-artifact
+          path: ./target/

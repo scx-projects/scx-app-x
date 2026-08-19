@@ -1,0 +1,86 @@
+{
+  "scx": {
+    "http": {
+      "port": 8899,
+      "max-payload-size": "11MB",
+      "use-development-error-page": true,
+      "ssl": {
+        "enabled": false,
+        "path": "AppRoot:ssl\\my_keystore.jks",
+        "password": "123456"
+      }
+    },
+    "sql": {
+      "url": "jdbc:mysql://127.0.0.1:3306/scx_app_x",
+      "username": "root",
+      "password": "root",
+      "parameters": [
+        "allowMultiQueries=true",
+        "rewriteBatchedStatements=true",
+        "createDatabaseIfNotExist=true"
+      ],
+      "spy": {
+        "enabled": true,
+        "style": "rendered-sql"
+      }
+    },
+    "cors": {
+      "allowed-origin": "*",
+      "allow-credentials": true
+    },
+    "fix-table": {
+      "enabled": false
+    },
+    "logging": {
+      "default": {
+        "level": "e",
+        "type": "console",
+        "path": null,
+        "trace": false
+      },
+      "loggers": [
+        {
+          "name": "ScxJdbcSpy",
+          "level": "DEBUG",
+          "type": "CONSOLE",
+          "path": "AppRoot:sql-logs",
+          "trace": false
+        },
+        {
+          "regex": "dev.scx.app.x.test.scheduling.*",
+          "level": "DEBUG",
+          "type": "CONSOLE",
+          "path": "AppRoot:sql-logs",
+          "trace": false
+        },
+        {
+          "name": "dev.scx.app.x.test.ScxAppXTest",
+          "level": "d",
+          "type": "c",
+          "path": "AppRoot:sql-logs",
+          "trace": false
+        }
+      ]
+    },
+    "static-servers": [
+      {
+        "host": null,
+        "type": "static-files",
+        "route": "/*",
+        "path": "AppRoot:t"
+      },
+      {
+        "host": null,
+        "type": "d",
+        "route": "/c1/*",
+        "path": "AppRoot:c1"
+      },
+      {
+        "host": null,
+        "type": "single-file",
+        "route": "/c2/*",
+        "path": "AppRoot:c2/index.html"
+      }
+    ]
+  }
+}
