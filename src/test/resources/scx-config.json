@@ -8,6 +8,10 @@
         "enabled": false,
         "path": "AppRoot:ssl\\my_keystore.jks",
         "password": "123456"
+      },
+      "websocket": {
+        "max-frame-size": "8MB",
+        "max-message-size": "32MB"
       }
     },
     "sql": {

@@ -12,6 +12,7 @@ import dev.scx.http.x.HttpServer;
 import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
 import dev.scx.tcp.tls.TLS;
+import dev.scx.websocket.x.WebSocketOptions;
 import dev.scx.websocket.x.WebSocketUpgradeRequestFactory;
 
 import java.io.IOException;
@@ -52,6 +53,9 @@ public final class ScxAppHttpModule implements ScxAppModule {
         var sslPath = environment.get("scx.http.ssl.path", ConfiguredPath.class);
         var sslPassword = environment.get("scx.http.ssl.password", String.class);
 
+        var webSocketMaxFrameSize = environment.get("scx.http.websocket.max-frame-size", ConfiguredSize.class, "16MB");
+        var webSocketMaxMessageSize = environment.get("scx.http.websocket.max-message-size", ConfiguredSize.class, "64MB");
+
         this.httpServerOptions = new HttpServerOptions();
 
         this.httpServerOptions.maxPayloadSize(maxPayloadSize.size());
@@ -68,7 +72,11 @@ public final class ScxAppHttpModule implements ScxAppModule {
         }
 
         // 添加一个 websocket 处理器
-        this.httpServerOptions.addUpgradeRequestFactory(new WebSocketUpgradeRequestFactory());
+        var webSocketOptions = new WebSocketOptions()
+            .maxFrameSize((int) webSocketMaxFrameSize.size())
+            .maxMessageSize((int) webSocketMaxMessageSize.size());
+
+        this.httpServerOptions.addUpgradeRequestFactory(new WebSocketUpgradeRequestFactory(webSocketOptions));
 
         this.httpServer = new HttpServer(this.httpServerOptions)
             .onRequest(this.router)
