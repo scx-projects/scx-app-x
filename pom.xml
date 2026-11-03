@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>scx-app-x</artifactId>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <packaging>jar</packaging>
 
     <name>SCX App X</name>
@@ -142,7 +142,7 @@
         <!-- *********************** 以下为依赖包版本 *********************** -->
         <scx-app.version>0.10.0</scx-app.version>
         <scx-di.version>0.10.0</scx-di.version>
-        <scx-web.version>0.10.3</scx-web.version>
+        <scx-web.version>0.10.4</scx-web.version>
         <scx-data-sql.version>0.10.0</scx-data-sql.version>
         <scx-scheduling.version>0.10.0</scx-scheduling.version>
         <scx-jdbc-spy.version>0.10.0</scx-jdbc-spy.version>
