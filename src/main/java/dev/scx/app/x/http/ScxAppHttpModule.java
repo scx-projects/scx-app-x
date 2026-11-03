@@ -53,8 +53,8 @@ public final class ScxAppHttpModule implements ScxAppModule {
         var sslPath = environment.get("scx.http.ssl.path", ConfiguredPath.class);
         var sslPassword = environment.get("scx.http.ssl.password", String.class);
 
-        var webSocketMaxFrameSize = environment.get("scx.http.websocket.max-frame-size", ConfiguredSize.class,"16MB");
-        var webSocketMaxMessageSize = environment.get("scx.http.websocket.max-message-size", ConfiguredSize.class,"64MB");
+        var webSocketMaxFrameSize = environment.get("scx.http.websocket.max-frame-size", ConfiguredSize.class, "16MB");
+        var webSocketMaxMessageSize = environment.get("scx.http.websocket.max-message-size", ConfiguredSize.class, "64MB");
 
         this.httpServerOptions = new HttpServerOptions();
 
@@ -72,7 +72,7 @@ public final class ScxAppHttpModule implements ScxAppModule {
         }
 
         // 添加一个 websocket 处理器
-        var webSocketOptions= new WebSocketOptions()
+        var webSocketOptions = new WebSocketOptions()
             .maxFrameSize((int) webSocketMaxFrameSize.size())
             .maxMessageSize((int) webSocketMaxMessageSize.size());
 
