@@ -40,7 +40,7 @@ public final class JsonFileConfigSource implements ScxConfigSource {
             throw new ScxConfigSourceException("配置文件必须为 Object 格式!!! 请确保配置文件格式正确 :" + jsonFile);
         }
 
-        Ansi.ansi().brightBlue("✔ 已加载配置文件 : " + jsonFile).println();
+        Ansi.ansi().brightBlue("已加载配置文件 : " + jsonFile).println();
 
         return objectNode;
     }
