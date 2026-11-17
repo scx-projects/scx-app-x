@@ -23,7 +23,7 @@ public final class ConfiguredSizeNodeMapper implements TypeNodeMapper<Configured
     }
 
     @Override
-    public Class<ValueNode> nodeType() {
+    public Class<ValueNode> nodeType(NodeToObjectContext context) {
         return ValueNode.class;
     }
 
