@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1>当指向单文件时 所有请求都会被转发给单文件</h1>
+    <a href="/c1/">目录形式</a>
+    <h1 id="h11"></h1>
+</div>
+<script>
+    const h11 = document.querySelector("#h11");
+    h11.innerHTML = "路径为 : " + window.location.pathname;
+</script>
+</body>
+</html>
