@@ -40,7 +40,7 @@ public final class ConfiguredPathNodeMapper implements TypeNodeMapper<Configured
     }
 
     @Override
-    public Class<StringNode> nodeType() {
+    public Class<StringNode> nodeType(NodeToObjectContext context) {
         return StringNode.class;
     }
 
